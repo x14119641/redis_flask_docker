@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+        - REDIS_HOST=redis
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - 6379:6379
+    expose:
+      - '6379'
+
+  # rq-worker:
+  #   image: jaredv/rq-docker:0.0.2
+  #   command: rq worker -u redis://redis:6379 high normal low
+  #   deploy:
+  #     replicas: 1
+  #   depends_on:
+  #     - redis
